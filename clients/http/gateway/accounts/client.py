@@ -194,7 +194,7 @@ class AccountsGatewayHTTPClient(HTTPClient):
         return response.json()
 
 
-def build_account_gateway_http_client() -> AccountsGatewayHTTPClient:
+def build_accounts_gateway_http_client() -> AccountsGatewayHTTPClient:
     """
     Функция создаёт экземпляр AccountsGatewayHTTPClient с уже настроенным HTTP-клиентом.
 
