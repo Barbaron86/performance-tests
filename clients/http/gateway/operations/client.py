@@ -22,8 +22,8 @@ from clients.http.gateway.operations.schema import (
     MakeBillPaymentOperationRequestSchema,
     MakeBillPaymentOperationResponseSchema,
     MakeCashWithdrawalOperationRequestSchema,
-    MakeCashWithdrawalOperationResponseSchema,
-    OperationStatus,
+    MakeCashWithdrawalOperationResponseSchema
+
 )
 
 
@@ -135,8 +135,8 @@ class OperationsGatewayHTTPClient(HTTPClient):
         )
 
     def make_bill_payment_operation_api(
-        self,
-        request: MakeBillPaymentOperationRequestSchema
+            self,
+            request: MakeBillPaymentOperationRequestSchema
     ) -> Response:
         """
         Создаёт операцию оплаты счёта.
@@ -150,8 +150,8 @@ class OperationsGatewayHTTPClient(HTTPClient):
         )
 
     def make_cash_withdrawal_operation_api(
-        self,
-        request: MakeCashWithdrawalOperationRequestSchema
+            self,
+            request: MakeCashWithdrawalOperationRequestSchema
     ) -> Response:
         """
         Создаёт операцию снятия наличных средств.
@@ -214,19 +214,14 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param account_id: Уникальный идентификатор счёта.
         :return: Модель MakeFeeOperationResponseSchema с результатом создания операции комиссии.
         """
-        request = MakeFeeOperationRequestSchema(
-            status=OperationStatus.COMPLETED,
-            amount=55.77,
-            card_id=card_id,
-            account_id=account_id
-        )
+        request = MakeFeeOperationRequestSchema(card_id=card_id, account_id=account_id)
         response = self.make_fee_operation_api(request)
         return MakeFeeOperationResponseSchema.model_validate_json(response.text)
 
     def make_top_up_operation(
-        self,
-        card_id: str,
-        account_id: str
+            self,
+            card_id: str,
+            account_id: str
     ) -> MakeTopUpOperationResponseSchema:
         """
         Создаёт операцию пополнения счёта с предопределёнными тестовыми параметрами.
@@ -235,19 +230,14 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param account_id: Уникальный идентификатор счёта.
         :return: Модель MakeTopUpOperationResponseSchema с результатом создания операции пополнения.
         """
-        request = MakeTopUpOperationRequestSchema(
-            status=OperationStatus.COMPLETED,
-            amount=1500.11,
-            card_id=card_id,
-            account_id=account_id
-        )
+        request = MakeTopUpOperationRequestSchema(card_id=card_id, account_id=account_id)
         response = self.make_top_up_operation_api(request)
         return MakeTopUpOperationResponseSchema.model_validate_json(response.text)
 
     def make_cashback_operation(
-        self,
-        card_id: str,
-        account_id: str
+            self,
+            card_id: str,
+            account_id: str
     ) -> MakeCashbackOperationResponseSchema:
         """
         Создаёт операцию начисления кэшбэка с предопределёнными тестовыми параметрами.
@@ -256,19 +246,14 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param account_id: Уникальный идентификатор счёта.
         :return: Модель MakeCashbackOperationResponseSchema с результатом создания операции кэшбэка.
         """
-        request = MakeCashbackOperationRequestSchema(
-            status=OperationStatus.COMPLETED,
-            amount=1500.11,
-            card_id=card_id,
-            account_id=account_id
-        )
+        request = MakeCashbackOperationRequestSchema(card_id=card_id, account_id=account_id)
         response = self.make_cashback_operation_api(request)
         return MakeCashbackOperationResponseSchema.model_validate_json(response.text)
 
     def make_transfer_operation(
-        self,
-        card_id: str,
-        account_id: str
+            self,
+            card_id: str,
+            account_id: str
     ) -> MakeTransferOperationResponseSchema:
         """
         Создаёт операцию перевода денежных средств с предопределёнными тестовыми параметрами.
@@ -277,19 +262,14 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param account_id: Уникальный идентификатор счёта.
         :return: Модель MakeTransferOperationResponseSchema с результатом создания операции перевода.
         """
-        request = MakeTransferOperationRequestSchema(
-            status=OperationStatus.COMPLETED,
-            amount=15.11,
-            card_id=card_id,
-            account_id=account_id
-        )
+        request = MakeTransferOperationRequestSchema(card_id=card_id, account_id=account_id)
         response = self.make_transfer_operation_api(request)
         return MakeTransferOperationResponseSchema.model_validate_json(response.text)
 
     def make_purchase_operation(
-        self,
-        card_id: str,
-        account_id: str
+            self,
+            card_id: str,
+            account_id: str
     ) -> MakePurchaseOperationResponseSchema:
         """
         Создаёт операцию покупки в категории "taxi" с предопределёнными тестовыми параметрами.
@@ -298,20 +278,14 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param account_id: Уникальный идентификатор счёта.
         :return: Модель MakePurchaseOperationResponseSchema с результатом создания операции покупки.
         """
-        request = MakePurchaseOperationRequestSchema(
-            status=OperationStatus.COMPLETED,
-            amount=55.77,
-            card_id=card_id,
-            category="taxi",
-            account_id=account_id
-        )
+        request = MakePurchaseOperationRequestSchema(card_id=card_id, account_id=account_id)
         response = self.make_purchase_operation_api(request)
         return MakePurchaseOperationResponseSchema.model_validate_json(response.text)
 
     def make_bill_payment_operation(
-        self,
-        card_id: str,
-        account_id: str
+            self,
+            card_id: str,
+            account_id: str
     ) -> MakeBillPaymentOperationResponseSchema:
         """
         Создаёт операцию оплаты выставленного счёта с предопределёнными тестовыми параметрами.
@@ -320,19 +294,14 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param account_id: Уникальный идентификатор счёта.
         :return: Модель MakeBillPaymentOperationResponseSchema с результатом создания операции оплаты счёта.
         """
-        request = MakeBillPaymentOperationRequestSchema(
-            status=OperationStatus.COMPLETED,
-            amount=55.77,
-            card_id=card_id,
-            account_id=account_id
-        )
+        request = MakeBillPaymentOperationRequestSchema(card_id=card_id, account_id=account_id)
         response = self.make_bill_payment_operation_api(request)
         return MakeBillPaymentOperationResponseSchema.model_validate_json(response.text)
 
     def make_cash_withdrawal_operation(
-        self,
-        card_id: str,
-        account_id: str
+            self,
+            card_id: str,
+            account_id: str
     ) -> MakeCashWithdrawalOperationResponseSchema:
         """
         Создаёт операцию снятия наличных средств с предопределёнными тестовыми параметрами.
@@ -341,12 +310,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param account_id: Уникальный идентификатор счёта.
         :return: Модель MakeCashWithdrawalOperationResponseSchema с результатом создания операции снятия наличных.
         """
-        request = MakeCashWithdrawalOperationRequestSchema(
-            status=OperationStatus.COMPLETED,
-            amount=55.77,
-            card_id=card_id,
-            account_id=account_id
-        )
+        request = MakeCashWithdrawalOperationRequestSchema(card_id=card_id, account_id=account_id)
         response = self.make_cash_withdrawal_operation_api(request)
         return MakeCashWithdrawalOperationResponseSchema.model_validate_json(response.text)
 
