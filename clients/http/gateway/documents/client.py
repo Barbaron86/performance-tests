@@ -1,31 +1,13 @@
-from typing import TypedDict
-
 from httpx import Response
 
 from clients.http.client import HTTPClient
 from clients.http.gateway.client import build_gateway_http_client
+from clients.http.gateway.documents.schema import (
+    GetTariffDocumentResponseSchema,
+    GetContractDocumentResponseSchema
+)
 
 
-class DocumentDict(TypedDict):
-    """
-    Структура данных для описания документа (содержит ссылку и название).
-    """
-    url: str
-    document: str
-
-
-class GetTariffDocumentResponseDict(TypedDict):
-    """
-    Описание структуры ответа при получении тарифного документа по счету.
-    """
-    tariff: DocumentDict
-
-
-class GetContractDocumentResponseDict(TypedDict):
-    """
-    Описание структуры ответа при получении документа договора по счету.
-    """
-    contract: DocumentDict
 
 
 class DocumentsGatewayHTTPClient(HTTPClient):
@@ -51,25 +33,25 @@ class DocumentsGatewayHTTPClient(HTTPClient):
         """
         return self.get(f'/api/v1/documents/contract-document/{account_id}')
 
-    def get_tariff_document(self, account_id: str) -> GetTariffDocumentResponseDict:
+    def get_tariff_document(self, account_id: str) -> GetTariffDocumentResponseSchema:
         """
         Получение тарифного документа по счету.
 
         :param account_id: Идентификатор счета.
-        :return: Словарь с данными тарифного документа (GetTariffDocumentResponseDict).
+        :return: Модель GetTariffDocumentResponseSchema с данными тарифного документа.
         """
         response = self.get_tariff_document_api(account_id)
-        return response.json()
+        return GetTariffDocumentResponseSchema.model_validate_json(response.text)
 
-    def get_contract_document(self, account_id: str) -> GetContractDocumentResponseDict:
+    def get_contract_document(self, account_id: str) -> GetContractDocumentResponseSchema:
         """
         Получение документа договора по счету.
 
         :param account_id: Идентификатор счета.
-        :return: Словарь с данными документа договора (GetContractDocumentResponseDict).
+        :return: Модель GetContractDocumentResponseSchema с данными документа договора.
         """
         response = self.get_contract_document_api(account_id)
-        return response.json()
+        return GetContractDocumentResponseSchema.model_validate_json(response.text)
 
 
 def build_documents_gateway_http_client() -> DocumentsGatewayHTTPClient:
