@@ -10,8 +10,8 @@ from contracts.services.gateway.accounts.accounts_gateway_service_pb2_grpc impor
 from tools.fakers import fake
 
 channel = grpc.insecure_channel("localhost:9003")
-user_gateway_service = UsersGatewayServiceStub(channel)
-account_gateway_service = AccountsGatewayServiceStub(channel)
+users_gateway_service = UsersGatewayServiceStub(channel)
+accounts_gateway_service = AccountsGatewayServiceStub(channel)
 
 create_user_request = CreateUserRequest(
     email=fake.email(),
@@ -21,14 +21,14 @@ create_user_request = CreateUserRequest(
     phone_number=fake.phone_number()
 )
 
-create_user_response: CreateUserResponse = user_gateway_service.CreateUser(create_user_request)
+create_user_response: CreateUserResponse = users_gateway_service.CreateUser(create_user_request)
 print("Create user response:", create_user_response)
 
 open_debit_card_account_request = OpenDebitCardAccountRequest(
     user_id=create_user_response.user.id
 )
 
-open_debit_card_account_response: OpenDebitCardAccountResponse = account_gateway_service.OpenDebitCardAccount(
+open_debit_card_account_response: OpenDebitCardAccountResponse = accounts_gateway_service.OpenDebitCardAccount(
     open_debit_card_account_request
 )
 print("Open debit card account response:", open_debit_card_account_response)

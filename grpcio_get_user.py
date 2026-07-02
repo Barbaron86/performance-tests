@@ -7,7 +7,7 @@ from tools.fakers import fake
 
 channel = grpc.insecure_channel("localhost:9003")
 
-user_gateway_service = UsersGatewayServiceStub(channel)
+users_gateway_service = UsersGatewayServiceStub(channel)
 
 create_user_request = CreateUserRequest(
     email=fake.email(),
@@ -17,11 +17,11 @@ create_user_request = CreateUserRequest(
     phone_number=fake.phone_number()
 
 )
-create_user_response: CreateUserResponse = user_gateway_service.CreateUser(create_user_request)
+create_user_response: CreateUserResponse = users_gateway_service.CreateUser(create_user_request)
 print("Create user response:", create_user_response)
 
 get_user_request = GetUserRequest(
     id=create_user_response.user.id
 )
-get_user_response: GetUserResponse = user_gateway_service.GetUser(get_user_request)
+get_user_response: GetUserResponse = users_gateway_service.GetUser(get_user_request)
 print("Get user response:", get_user_response)
