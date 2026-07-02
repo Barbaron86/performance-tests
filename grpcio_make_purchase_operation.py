@@ -1,6 +1,5 @@
 import grpc
 
-from contracts.services.accounts.account_pb2 import Account
 from contracts.services.gateway.accounts.accounts_gateway_service_pb2_grpc import AccountsGatewayServiceStub
 from contracts.services.gateway.accounts.rpc_open_credit_card_account_pb2 import (
     OpenCreditCardAccountRequest,
@@ -54,7 +53,6 @@ make_purchase_operation_request = MakePurchaseOperationRequest(
 )
 make_purchase_operation_response: MakePurchaseOperationResponse = (
     operations_gateway_service.MakePurchaseOperation(
-    make_purchase_operation_request)
+        make_purchase_operation_request)
 )
 print("Make purchase operation response:", make_purchase_operation_response)
-
