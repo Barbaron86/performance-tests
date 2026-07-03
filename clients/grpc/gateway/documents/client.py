@@ -28,7 +28,7 @@ class DocumentsGatewayGRPCClient(GRPCClient):
 
         self.stub = DocumentsGatewayServiceStub(channel)
 
-    def get_tariff_document(self, request: GetTariffDocumentRequest) -> GetTariffDocumentResponse:
+    def get_tariff_document_api(self, request: GetTariffDocumentRequest) -> GetTariffDocumentResponse:
         """
         Низкоуровневый вызов метода GetTariffDocument через gRPC.
 
@@ -37,7 +37,7 @@ class DocumentsGatewayGRPCClient(GRPCClient):
         """
         return self.stub.GetTariffDocument(request)
 
-    def get_contract_document(self, request: GetContractDocumentRequest) -> GetContractDocumentResponse:
+    def get_contract_document_api(self, request: GetContractDocumentRequest) -> GetContractDocumentResponse:
         """
         Низкоуровневый вызов метода GetContractDocument через gRPC.
 
@@ -46,7 +46,7 @@ class DocumentsGatewayGRPCClient(GRPCClient):
         """
         return self.stub.GetContractDocument(request)
 
-    def get_tariff_document_api(self, account_id: str) -> GetTariffDocumentResponse:
+    def get_tariff_document(self, account_id: str) -> GetTariffDocumentResponse:
         """
         Получение тарифного документа по ID счета.
 
@@ -54,9 +54,9 @@ class DocumentsGatewayGRPCClient(GRPCClient):
         :return: Ответ с тарифным документом.
         """
         request = GetTariffDocumentRequest(account_id=account_id)
-        return self.get_tariff_document(request)
+        return self.get_tariff_document_api(request)
 
-    def get_contract_document_api(self, account_id: str) -> GetContractDocumentResponse:
+    def get_contract_document(self, account_id: str) -> GetContractDocumentResponse:
         """
         Получение договорного документа по ID счета.
 
@@ -64,7 +64,7 @@ class DocumentsGatewayGRPCClient(GRPCClient):
         :return: Ответ с договорным документом.
         """
         request = GetContractDocumentRequest(account_id=account_id)
-        return self.get_contract_document(request)
+        return self.get_contract_document_api(request)
 
 
 def build_documents_gateway_grpc_client() -> DocumentsGatewayGRPCClient:
