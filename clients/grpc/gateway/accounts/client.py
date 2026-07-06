@@ -1,7 +1,8 @@
 from grpc import Channel
+from locust.env import Environment
 
 from clients.grpc.client import GRPCClient
-from clients.grpc.gateway.client import build_gateway_grpc_client
+from clients.grpc.gateway.client import build_gateway_grpc_client, build_gateway_locust_grpc_client
 from contracts.services.gateway.accounts.accounts_gateway_service_pb2_grpc import (
     AccountsGatewayServiceStub,
 )
@@ -52,8 +53,8 @@ class AccountsGatewayGRPCClient(GRPCClient):
         return self.stub.GetAccounts(request)
 
     def open_deposit_account_api(
-        self,
-        request: OpenDepositAccountRequest,
+            self,
+            request: OpenDepositAccountRequest,
     ) -> OpenDepositAccountResponse:
         """
         Низкоуровневый вызов метода OpenDepositAccount через gRPC.
@@ -64,8 +65,8 @@ class AccountsGatewayGRPCClient(GRPCClient):
         return self.stub.OpenDepositAccount(request)
 
     def open_savings_account_api(
-        self,
-        request: OpenSavingsAccountRequest,
+            self,
+            request: OpenSavingsAccountRequest,
     ) -> OpenSavingsAccountResponse:
         """
         Низкоуровневый вызов метода OpenSavingsAccount через gRPC.
@@ -76,8 +77,8 @@ class AccountsGatewayGRPCClient(GRPCClient):
         return self.stub.OpenSavingsAccount(request)
 
     def open_debit_card_account_api(
-        self,
-        request: OpenDebitCardAccountRequest,
+            self,
+            request: OpenDebitCardAccountRequest,
     ) -> OpenDebitCardAccountResponse:
         """
         Низкоуровневый вызов метода OpenDebitCardAccount через gRPC.
@@ -88,8 +89,8 @@ class AccountsGatewayGRPCClient(GRPCClient):
         return self.stub.OpenDebitCardAccount(request)
 
     def open_credit_card_account_api(
-        self,
-        request: OpenCreditCardAccountRequest,
+            self,
+            request: OpenCreditCardAccountRequest,
     ) -> OpenCreditCardAccountResponse:
         """
         Низкоуровневый вызов метода OpenCreditCardAccount через gRPC.
@@ -157,3 +158,16 @@ def build_accounts_gateway_grpc_client() -> AccountsGatewayGRPCClient:
     :return: Инициализированный клиент для AccountsGatewayService.
     """
     return AccountsGatewayGRPCClient(channel=build_gateway_grpc_client())
+
+
+def build_accounts_gateway_locust_grpc_client(environment: Environment) -> AccountsGatewayGRPCClient:
+    """
+    Создаёт экземпляр AccountsGatewayGRPCClient для нагрузочного тестирования в Locust.
+
+    Метрики собираются автоматически через gRPC-интерцептор (LocustInterceptor).
+    Интерцептор измеряет время вызовов и отправляет статистику в Locust.
+
+    :param environment: Объект окружения Locust.
+    :return: AccountsGatewayGRPCClient с подключённым интерцептором метрик.
+    """
+    return AccountsGatewayGRPCClient(channel=build_gateway_locust_grpc_client(environment))

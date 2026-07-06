@@ -1,4 +1,6 @@
 from grpc import Channel
+from locust.env import Environment
+
 from contracts.services.gateway.cards.rpc_issue_physical_card_pb2 import (
     IssuePhysicalCardRequest,
     IssuePhysicalCardResponse
@@ -8,7 +10,7 @@ from contracts.services.gateway.cards.rpc_issue_virtual_card_pb2 import (
     IssueVirtualCardRequest,
     IssueVirtualCardResponse
 )
-from clients.grpc.gateway.client import build_gateway_grpc_client
+from clients.grpc.gateway.client import build_gateway_grpc_client, build_gateway_locust_grpc_client
 from clients.grpc.client import GRPCClient
 
 
@@ -17,6 +19,7 @@ class CardsGatewayGRPCClient(GRPCClient):
     gRPC-клиент для взаимодействия с CardsGatewayService.
     Предоставляет высокоуровневые методы для работы с картами.
     """
+
     def __init__(self, channel: Channel):
         """
         Инициализация клиента с указанным gRPC-каналом.
@@ -66,6 +69,7 @@ class CardsGatewayGRPCClient(GRPCClient):
         request = IssuePhysicalCardRequest(user_id=user_id, account_id=account_id)
         return self.issue_physical_card_api(request)
 
+
 def build_cards_gateway_grpc_client() -> CardsGatewayGRPCClient:
     """
     Фабрика для создания экземпляра CardsGatewayGRPCClient.
@@ -73,3 +77,16 @@ def build_cards_gateway_grpc_client() -> CardsGatewayGRPCClient:
     :return: Инициализированный клиент для CardsGatewayService.
     """
     return CardsGatewayGRPCClient(channel=build_gateway_grpc_client())
+
+
+def build_cards_gateway_locust_grpc_client(environment: Environment) -> CardsGatewayGRPCClient:
+    """
+    Создаёт экземпляр CardsGatewayGRPCClient для нагрузочного тестирования в Locust.
+
+    Метрики собираются автоматически через gRPC-интерцептор (LocustInterceptor).
+    Интерцептор измеряет время вызовов и отправляет статистику в Locust.
+
+    :param environment: Объект окружения Locust.
+    :return: CardsGatewayGRPCClient с подключённым интерцептором метрик.
+    """
+    return CardsGatewayGRPCClient(channel=build_gateway_locust_grpc_client(environment))
