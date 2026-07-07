@@ -4,7 +4,7 @@ from clients.http.gateway.cards.schema import CardSchema
 
 class AccountType(StrEnum):
     DEPOSIT = "DEPOSIT"
-    SAVING = "SAVING"
+    SAVING = "SAVINGS"
     DEBIT_CARD = "DEBIT_CARD"
     CREDIT_CARD = "CREDIT_CARD"
 
@@ -58,7 +58,7 @@ class OpenDepositAccountResponseSchema(BaseModel):
     account: AccountSchema
 
 
-class OpenSavingAccountRequestSchema(BaseModel):
+class OpenSavingsAccountRequestSchema(BaseModel):
     """
     Структура данных для открытия сберегательного счета.
     """
@@ -67,7 +67,7 @@ class OpenSavingAccountRequestSchema(BaseModel):
     user_id: str = Field(alias="userId")
 
 
-class OpenSavingAccountResponseSchema(BaseModel):
+class OpenSavingsAccountResponseSchema(BaseModel):
     """
     Описание структуры ответа открытия сберегательного счета.
     """

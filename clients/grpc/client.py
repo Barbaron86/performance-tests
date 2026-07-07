@@ -16,13 +16,23 @@ class GRPCClient:
                         Обычно создаётся один раз и переиспользуется.
         """
         self.channel = channel
+        self._closed = False
 
     def close(self) -> None:
         """
-        Закрывает gRPC-канал явно до финализации gevent greenlet.
-        """
-        close_channel = getattr(self.channel, "_close_channel", self.channel)
+        Закрывает gRPC-канал один раз.
 
-        self.channel.close()
-        if close_channel is not self.channel:
-            close_channel.close()
+        Для Locust interceptor-channel закрывается исходный gRPC-канал,
+        сохранённый в `_close_channel`.
+        """
+        if self._closed:
+            return
+
+        channel_to_close = getattr(
+            self.channel,
+            "_close_channel",
+            self.channel,
+        )
+
+        channel_to_close.close()
+        self._closed = True

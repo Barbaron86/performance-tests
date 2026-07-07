@@ -12,8 +12,8 @@ from clients.http.gateway.accounts.schema import (
     GetAccountsResponseSchema,
     OpenDepositAccountRequestSchema,
     OpenDepositAccountResponseSchema,
-    OpenSavingAccountRequestSchema,
-    OpenSavingAccountResponseSchema,
+    OpenSavingsAccountRequestSchema,
+    OpenSavingsAccountResponseSchema,
     OpenDebitCardAccountRequestSchema,
     OpenDebitCardAccountResponseSchema,
     OpenCreditCardAccountRequestSchema,
@@ -53,7 +53,7 @@ class AccountsGatewayHTTPClient(HTTPClient):
             json=request.model_dump(by_alias=True)
         )
 
-    def open_saving_account_api(self, request: OpenSavingAccountRequestSchema) -> Response:
+    def open_saving_account_api(self, request: OpenSavingsAccountRequestSchema) -> Response:
         """
         Выполняет POST-запрос для открытия сберегательного счёта.
 
@@ -61,7 +61,7 @@ class AccountsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response.
         """
         return self.post(
-            '/api/v1/accounts/open-saving-account',
+            '/api/v1/accounts/open-savings-account',
             json=request.model_dump(by_alias=True)
         )
 
@@ -111,16 +111,16 @@ class AccountsGatewayHTTPClient(HTTPClient):
         response = self.open_deposit_account_api(request)
         return OpenDepositAccountResponseSchema.model_validate_json(response.text)
 
-    def open_savings_account(self, user_id: str) -> OpenSavingAccountResponseSchema:
+    def open_savings_account(self, user_id: str) -> OpenSavingsAccountResponseSchema:
         """
         Открытие сберегательного счёта.
 
         :param user_id: Идентификатор пользователя.
         :return: Словарь с данными открытого сберегательного счёта (OpenSavingsAccountResponseDict).
         """
-        request = OpenSavingAccountRequestSchema(userId=user_id)
+        request = OpenSavingsAccountRequestSchema(userId=user_id)
         response = self.open_saving_account_api(request)
-        return OpenSavingAccountResponseSchema.model_validate_json(response.text)
+        return OpenSavingsAccountResponseSchema.model_validate_json(response.text)
 
     def open_debit_card_account(self, user_id: str) -> OpenDebitCardAccountResponseSchema:
         """

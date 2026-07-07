@@ -20,11 +20,9 @@ class GetUserScenarioUser(User):
         self.create_user_response = self.users_gateway_client.create_user()
 
     def on_stop(self) -> None:
-        if not hasattr(self, "users_gateway_client"):
-            return
-
-        self.users_gateway_client.close()
-        del self.users_gateway_client
+        if hasattr(self, "users_gateway_client"):
+            self.users_gateway_client.close()
+            del self.users_gateway_client
 
     @task
     def get_user(self) -> None:
