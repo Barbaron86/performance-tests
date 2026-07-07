@@ -1,8 +1,5 @@
-import grpc.experimental.gevent as grpc_gevent
-
 from grpc import Channel
 
-grpc_gevent.init_gevent()
 
 class GRPCClient:
     """
@@ -19,3 +16,13 @@ class GRPCClient:
                         Обычно создаётся один раз и переиспользуется.
         """
         self.channel = channel
+
+    def close(self) -> None:
+        """
+        Закрывает gRPC-канал явно до финализации gevent greenlet.
+        """
+        close_channel = getattr(self.channel, "_close_channel", self.channel)
+
+        self.channel.close()
+        if close_channel is not self.channel:
+            close_channel.close()
