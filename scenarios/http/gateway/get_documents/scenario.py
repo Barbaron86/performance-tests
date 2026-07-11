@@ -32,6 +32,7 @@ class GetDocumentsSequentialTaskSet(GatewayHTTPSequentialTaskSet):
         """
         if not self.create_user_response:
             return
+
         self.open_savings_account_response = self.accounts_gateway_client.open_savings_account(
             user_id=self.create_user_response.user.id
         )
@@ -43,6 +44,7 @@ class GetDocumentsSequentialTaskSet(GatewayHTTPSequentialTaskSet):
         """
         if not self.open_savings_account_response:
             return
+        
         self.documents_gateway_client.get_tariff_document(
             account_id=self.open_savings_account_response.account.id
         )
