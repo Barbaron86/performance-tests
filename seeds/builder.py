@@ -216,8 +216,8 @@ class SeedsBuilder:
                 for _ in range(plan.transfer_operations.count)
             ],
             cash_withdrawal_operations=[
-                self.build_transfer_operation(account_id=account_id, card_id=card_id)
-                for _ in range(plan.transfer_operations.count)
+                self.build_cash_withdrawal_operation(account_id=account_id, card_id=card_id)
+                for _ in range(plan.cash_withdrawal_operations.count)
             ]
         )
 
@@ -265,8 +265,8 @@ class SeedsBuilder:
                 for _ in range(plan.transfer_operations.count)
             ],
             cash_withdrawal_operations=[
-                self.build_transfer_operation(account_id=account_id, card_id=card_id)
-                for _ in range(plan.transfer_operations.count)
+                self.build_cash_withdrawal_operation(account_id=account_id, card_id=card_id)
+                for _ in range(plan.cash_withdrawal_operations.count)
             ]
 
         )
