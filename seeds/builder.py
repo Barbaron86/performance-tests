@@ -6,8 +6,6 @@ from clients.http.gateway.accounts.client import build_accounts_gateway_http_cli
 from clients.http.gateway.cards.client import build_cards_gateway_http_client, CardsGatewayHTTPClient
 from clients.http.gateway.operations.client import build_operations_gateway_http_client, OperationsGatewayHTTPClient
 from clients.http.gateway.users.client import build_users_gateway_http_client, UsersGatewayHTTPClient
-from contracts.services.cards.card_pb2 import Card
-from contracts.services.operations.operation_pb2 import Operation
 from seeds.schema.plan import (
     SeedsPlan,
     SeedUsersPlan,
