@@ -30,7 +30,7 @@ class ExistingUserMakePurchaseOperationSeedsScenario(SeedsScenario):
         """
         Название сценария сидинга, которое будет использоваться для сохранения данных.
         """
-        return "existing_user_make_purchase_opearion"
+        return "existing_user_make_purchase_operation"
 
 if __name__ == '__main__':
     seeds_scenario = ExistingUserMakePurchaseOperationSeedsScenario()
