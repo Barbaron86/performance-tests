@@ -11,7 +11,7 @@ users_router = APIRouter(
 
 class UserIn(BaseModel):
     email: EmailStr
-    user_name: str
+    username: str
 
 
 class UserOut(UserIn):
