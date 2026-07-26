@@ -19,7 +19,7 @@ from clients.http.gateway.accounts.schema import (
     OpenCreditCardAccountRequestSchema,
     OpenCreditCardAccountResponseSchema
 )
-
+from tools.routes import ApiRoutes
 
 
 
@@ -36,9 +36,9 @@ class AccountsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с данными о счетах.
         """
         return self.get(
-            '/api/v1/accounts',
+            ApiRoutes.ACCOUNTS,
             params=QueryParams(**query.model_dump(by_alias=True)),
-            extensions=HTTPClientExtensions(route="/api/v1/accounts")
+            extensions=HTTPClientExtensions(route=ApiRoutes.ACCOUNTS)
         )
 
     def open_deposit_account_api(self, request: OpenDepositAccountRequestSchema) -> Response:
@@ -49,7 +49,7 @@ class AccountsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с результатом операции.
         """
         return self.post(
-            '/api/v1/accounts/open-deposit-account',
+        f"{ApiRoutes.ACCOUNTS}/open-deposit-account",
             json=request.model_dump(by_alias=True)
         )
 
@@ -61,7 +61,7 @@ class AccountsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response.
         """
         return self.post(
-            '/api/v1/accounts/open-savings-account',
+        f"{ApiRoutes.ACCOUNTS}/open-savings-account",
             json=request.model_dump(by_alias=True)
         )
 
@@ -73,7 +73,7 @@ class AccountsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response.
         """
         return self.post(
-            '/api/v1/accounts/open-debit-card-account',
+        f"{ApiRoutes.ACCOUNTS}/open-debit-card-account",
             json=request.model_dump(by_alias=True)
         )
 
@@ -85,7 +85,7 @@ class AccountsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response.
         """
         return self.post(
-            '/api/v1/accounts/open-credit-card-account',
+        f"{ApiRoutes.ACCOUNTS}/open-credit-card-account",
             json=request.model_dump(by_alias=True)
         )
 
