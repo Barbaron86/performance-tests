@@ -27,7 +27,7 @@ from clients.http.gateway.operations.schema import (
     MakeCashWithdrawalOperationResponseSchema
 
 )
-
+from tools.routes import ApiRoutes
 
 class OperationsGatewayHTTPClient(HTTPClient):
     """
@@ -42,9 +42,9 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с операциями по счёту.
         """
         return self.get(
-            '/api/v1/operations',
+            ApiRoutes.OPERATIONS,
             params=QueryParams(**query.model_dump(by_alias=True)),
-            extensions=HTTPClientExtensions(route="/api/v1/operations")
+            extensions=HTTPClientExtensions(route=ApiRoutes.OPERATIONS)
         )
 
     def get_operations_summary_api(self, query: GetOperationsSummaryQuerySchema) -> Response:
@@ -55,9 +55,9 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с агрегированной информацией.
         """
         return self.get(
-            '/api/v1/operations/operations-summary',
+            f'{ApiRoutes.OPERATIONS}/operations-summary',
             params=QueryParams(**query.model_dump(by_alias=True)),
-            extensions=HTTPClientExtensions(route="/api/v1/operations/operations-summary")
+            extensions=HTTPClientExtensions(route=f"{ApiRoutes.OPERATIONS}operations-summary")
         )
 
     def get_operation_receipt_api(self, operation_id: str) -> Response:
@@ -68,8 +68,8 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с чеком по операции.
         """
         return self.get(
-            f'/api/v1/operations/operation-receipt/{operation_id}',
-            extensions=HTTPClientExtensions(route="/api/v1/operations/operation-receipt/{operation_id}")
+            f'{ApiRoutes.OPERATIONS}/operation-receipt/{operation_id}',
+            extensions=HTTPClientExtensions(route=f"{ApiRoutes.OPERATIONS}/operation-receipt/{{operation_id}}")
         )
 
     def get_operation_api(self, operation_id: str) -> Response:
@@ -80,8 +80,8 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с данными об операции.
         """
         return self.get(
-            f'/api/v1/operations/{operation_id}',
-            extensions=HTTPClientExtensions(route="/api/v1/operations/{operation_id}")
+            f'{ApiRoutes.OPERATIONS}/{operation_id}',
+            extensions=HTTPClientExtensions(route=f"{ApiRoutes.OPERATIONS}/{{operation_id}}")
         )
 
     def make_fee_operation_api(self, request: MakeFeeOperationRequestSchema) -> Response:
@@ -92,7 +92,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с результатом операции.
         """
         return self.post(
-            '/api/v1/operations/make-fee-operation',
+            f'{ApiRoutes.OPERATIONS}/make-fee-operation',
             json=request.model_dump(by_alias=True)
         )
 
