@@ -4,6 +4,7 @@ from locust.env import Environment
 from clients.grpc.interceptors.locust_interceptor import LocustInterceptor
 
 _grpc_gevent_initialized = False
+from config import settings
 
 
 def init_grpc_gevent() -> None:
@@ -27,7 +28,7 @@ def build_gateway_grpc_client() -> Channel:
 
     :return: gRPC-канал (Channel), настроенный на адрес localhost:9003.
     """
-    return insecure_channel("localhost:9003")
+    return insecure_channel(settings.gateway_grpc_client.client_utl)
 
 
 def build_gateway_locust_grpc_client(environment: Environment) -> Channel:
@@ -43,7 +44,7 @@ def build_gateway_locust_grpc_client(environment: Environment) -> Channel:
 
     locust_interceptor = LocustInterceptor(environment)
 
-    channel = insecure_channel("localhost:9003")
+    channel = insecure_channel(settings.gateway_grpc_client.client_utl)
     intercepted_channel = intercept_channel(channel, locust_interceptor)
     setattr(intercepted_channel, "_close_channel", channel)
     return intercepted_channel
