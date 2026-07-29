@@ -3,7 +3,7 @@ api_url: http://localhost:13000                             # URL API Load Testi
 service:
   id: 1                                                       # ID сервиса
 scenario:
-  id:                                                      # ID сценария
+  id: 8                                                    # ID сценария
   name: "new_user_make_top_up_operation"                       # Название сценария
   file: "scenarios/grpc/gateway/new_user_make_top_up_operation/v1.0.conf"                # Путь к конфигу сценария
   version: "v1.0"                                           # Версия
