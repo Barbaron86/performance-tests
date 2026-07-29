@@ -8,7 +8,7 @@ class ExistingUserGetOperationsSeedsScenario(SeedsScenario):
     def plan(self) -> SeedsPlan:
         return SeedsPlan(
             users=SeedUsersPlan(
-                count=300,
+                count=100,
                 credit_card_accounts=SeedAccountsPlan(
                     count=1,
                     purchase_operations=SeedOperationsPlan(count=5),
