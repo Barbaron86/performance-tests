@@ -1,20 +1,20 @@
 from locust import task
 
-from clients.grpc.gateway.locust import GatewayGRPCSequentialTaskSet
+from clients.grpc.gateway.locust import GatewayGRPCTaskSet
 from clients.grpc.gateway.users.client import CreateUserResponse
 from clients.grpc.gateway.accounts.client import OpenDebitCardAccountResponse
 from tools.locust.user import LocustBaseUser
 
 
-class MakeCashbackOperationSequentialTaskSet(GatewayGRPCSequentialTaskSet):
+class MakeCashbackOperationTaskSet(GatewayGRPCTaskSet):
     create_user_response: CreateUserResponse | None = None
     open_debit_card_account_response: OpenDebitCardAccountResponse | None = None
 
-    @task
+    @task(2)
     def create_user(self):
         self.create_user_response = self.users_gateway_client.create_user()
 
-    @task
+    @task(2)
     def open_debit_card_account(self):
         if not self.create_user_response:
             return
@@ -25,7 +25,7 @@ class MakeCashbackOperationSequentialTaskSet(GatewayGRPCSequentialTaskSet):
             )
         )
 
-    @task
+    @task(6)
     def make_cashback_operation(self):
         if not self.create_user_response or not self.open_debit_card_account_response:
             return
@@ -44,4 +44,4 @@ class GetAccountsScenarioUser(LocustBaseUser):
     """
     Пользователь Locust, исполняющий последовательный сценарий получения списка счетов.
     """
-    tasks = [MakeCashbackOperationSequentialTaskSet]
+    tasks = [MakeCashbackOperationTaskSet]
