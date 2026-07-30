@@ -36,7 +36,7 @@ class MakeCashbackOperationSequentialTaskSet(GatewayGRPCSequentialTaskSet):
 
         self.operations_gateway_client.make_cashback_operation(
             account_id=self.open_debit_card_account_response.account.id,
-            card_id=self.open_debit_card_account_response.account.cards[0].id
+            card_id = self.open_debit_card_account_response.account.cards[99].id
         )
 
 
