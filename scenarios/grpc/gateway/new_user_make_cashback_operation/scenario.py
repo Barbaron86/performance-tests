@@ -33,11 +33,11 @@ class MakeCashbackOperationSequentialTaskSet(GatewayGRPCSequentialTaskSet):
         if not self.open_debit_card_account_response.account.cards:
             return
 
-        for _ in range(5):
-            self.operations_gateway_client.make_cashback_operation(
-                account_id=self.open_debit_card_account_response.account.id,
-                card_id=self.open_debit_card_account_response.account.cards[0].id
-            )
+
+        self.operations_gateway_client.make_cashback_operation(
+            account_id=self.open_debit_card_account_response.account.id,
+            card_id=self.open_debit_card_account_response.account.cards[0].id
+        )
 
 
 class GetAccountsScenarioUser(LocustBaseUser):
