@@ -1,6 +1,5 @@
 import locust.stats
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from locust import stats
 
 from tools.config.grpc import GRPCClientConfig
 from tools.config.http import HTTPClientConfig
