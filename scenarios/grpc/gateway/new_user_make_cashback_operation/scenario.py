@@ -1,20 +1,20 @@
 from locust import task
 
-from clients.grpc.gateway.locust import GatewayGRPCSequentialTaskSet
+from clients.grpc.gateway.locust import GatewayGRPCTaskSet
 from clients.grpc.gateway.users.client import CreateUserResponse
 from clients.grpc.gateway.accounts.client import OpenDebitCardAccountResponse
 from tools.locust.user import LocustBaseUser
 
 
-class MakeCashbackOperationSequentialTaskSet(GatewayGRPCSequentialTaskSet):
+class MakeCashbackOperationTaskSet(GatewayGRPCTaskSet):
     create_user_response: CreateUserResponse | None = None
     open_debit_card_account_response: OpenDebitCardAccountResponse | None = None
 
-    @task
+    @task(2)
     def create_user(self):
         self.create_user_response = self.users_gateway_client.create_user()
 
-    @task
+    @task(2)
     def open_debit_card_account(self):
         if not self.create_user_response:
             return
@@ -25,7 +25,7 @@ class MakeCashbackOperationSequentialTaskSet(GatewayGRPCSequentialTaskSet):
             )
         )
 
-    @task
+    @task(6)
     def make_cashback_operation(self):
         if not self.create_user_response or not self.open_debit_card_account_response:
             return
@@ -33,15 +33,15 @@ class MakeCashbackOperationSequentialTaskSet(GatewayGRPCSequentialTaskSet):
         if not self.open_debit_card_account_response.account.cards:
             return
 
-        for _ in range(5):
-            self.operations_gateway_client.make_cashback_operation(
-                account_id=self.open_debit_card_account_response.account.id,
-                card_id=self.open_debit_card_account_response.account.cards[0].id
-            )
+
+        self.operations_gateway_client.make_cashback_operation(
+            account_id=self.open_debit_card_account_response.account.id,
+            card_id=self.open_debit_card_account_response.account.cards[0].id
+        )
 
 
 class GetAccountsScenarioUser(LocustBaseUser):
     """
     Пользователь Locust, исполняющий последовательный сценарий получения списка счетов.
     """
-    tasks = [MakeCashbackOperationSequentialTaskSet]
+    tasks = [MakeCashbackOperationTaskSet]
