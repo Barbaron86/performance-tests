@@ -34,8 +34,9 @@ Identify issues that could cause inaccurate load generation, memory leaks during
 
 ---
 
-### Output
+### Output Requirements
 
+- **LANGUAGE RULE (CRITICAL):** All inline comments and explanations MUST be written EXCLUSIVELY in **Russian (на русском языке)**.
 - Provide **no more than 7 inline comments**, each specific, actionable, and concise.
 - If no issues are found, return an empty array.
 - Avoid mentioning that you are an AI — write as a human reviewer.

@@ -11,46 +11,38 @@ Focus on load generation accuracy, memory/concurrency safety, test data manageme
 
 ### Structure
 
-1. **Summary of changes** — 1–3 bullet points describing what has been modified.
-2. **Positive feedback** — 2–3 points highlighting well-implemented parts.
-3. **Recommendations** — actionable suggestions to improve load scenario realism, memory safety, data distribution, or metrics accuracy.
-4. **Clean Load Test Suite Evaluation Table** — rate each category:
-    - **Categories:** 
-      - `User Flow & Pacing` (realistic think times, task weights, lifecycle hooks)
-      - `Concurrency & Memory` (absence of memory leaks, gevent/thread safety, resource cleanup)
-      - `Test Data & Seeding` (safe data distribution, efficient queue usage, data exhaustion safety)
-      - `Error & SLA Handling` (proper failure reporting, status code validation, timeouts)
-      - `Maintainability & Structure` (clean fixtures, DRY principles, clear configuration)
-      - `Best Practices` (idiomatic Python, proper protocol client usage)
-    - **Ratings:**
-        * ✅ — fully compliant with performance testing standards and best practices.
-        * ⚠️ — minor issues or inefficiencies.
-        * ❌ — critical flaws (e.g., potential memory leak, invalid pacing, thread safety risk).
-        * N/A — not applicable for this MR.
-    - Format: Markdown table — `Criterion | Rating | Explanation`.
-5. **Overall Load Code Quality Score** — numeric rating (0–10), calculated as the average of all categories (✅ = 1.0, ⚠️ = 0.5, ❌ = 0.0), multiplied by 10.
+1. **Сводка изменений** — 1–3 пункта с описанием доработок.
+2. **Сильные стороны** — 2–3 пункта с хорошими решениями в коде.
+3. **Рекомендации** — конкретные действия для повышения стабильности, реалистичности нагрузки или точности метрик.
+4. **Таблица оценки качества (Clean Load Test Suite Evaluation Table)**:
+    - **Категории:** 
+      - `User Flow & Pacing` (реалистичный пейсинг, веса тасок, lifecycle хуки)
+      - `Concurrency & Memory` (отсутствие утечек памяти, gevent/thread safety, очистка ресурсов)
+      - `Test Data & Seeding` (безопасное распределение сидов, работа с очередями, защита от истощения данных)
+      - `Error & SLA Handling` (корректные `response.failure()`, валидация статус-кодов, таймауты)
+      - `Maintainability & Structure` (чистые фикстуры, DRY, конфигурация)
+      - `Best Practices` (идиоматичный Python, корректное использование протокольных клиентов)
+    - **Оценки:**
+        * ✅ — полностью соответствует стандартам нагрузочного тестирования.
+        * ⚠️ — есть небольшие замечания или некритичные недочёты.
+        * ❌ — критическая проблема (утечка памяти, отсутствие пейсинга, гонка потоков).
+        * N/A — не применимо к текущему PR.
+    - Формат: Markdown таблица — `Критерий | Оценка | Пояснение`.
+5. **Итоговый балл качества (Overall Load Code Quality Score)** — число от 0 до 10 (расчет: ✅ = 1.0, ⚠️ = 0.5, ❌ = 0.0, среднее значение * 10).
 
 ---
 
 ### What to Cover
 
-- **Performance risks:** memory accumulation over long runs (e.g., appending responses to global lists), unhandled exceptions killing virtual users silently.
-- **Pacing & Realism:** missing think times, bad task weight balance, unrealistic request bursts.
-- **Data distribution:** safe multi-user data popping (e.g., `queue.Queue` or thread-safe iterators), handling empty data pools.
-- **Client & Protocol usage:** correct gRPC channel reuse, HTTP session management, proper custom success/failure logging.
+- **Performance risks:** накопление памяти при долгих прогонах (например, append ответов в глобальные списки), необработанные исключения, тихо убивающие виртуальных юзеров.
+- **Pacing & Realism:** отсутствие паузы между запросами, перекос весов тасок, спам-запросы.
+- **Data distribution:** потокбезопасный `pop()` из очередей, обработка пустых пулов данных.
+- **Client & Protocol usage:** повторное использование gRPC каналов, сессии HTTP, кастомные статус-коды.
 
 ---
 
-### What to Ignore
+### Output Requirements
 
-- Minor formatting or linting issues handled by automated tools.
-- Missing comments or verbose logging unless they impact performance or correctness.
-- Pure style preferences without functional or performance impact.
-
----
-
-### Output
-
-- Return a structured plain-text review (Markdown table allowed for evaluation).
-- Do not output JSON or code unless it’s part of a recommendation.
-- If there are no issues, respond with: `No issues found.`
+- **LANGUAGE RULE (STRICT OVERRIDE):** All output (headings, bullets, table cells, explanations, and final score) MUST be written EXCLUSIVELY in **Russian (на русском языке)**.
+- **FORMATTING RULE (STRICT OVERRIDE):** Ignore any default plain-text restrictions. Always format the output using rich GitHub-flavored Markdown (bolding, headers, lists, line breaks, and Markdown tables).
+- If there are no issues, respond with: `Проблем не обнаружено.`
