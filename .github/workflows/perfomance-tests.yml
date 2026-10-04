@@ -72,6 +72,18 @@ jobs:
       - name: Run load tests and generate HTML report
         run: locust --config=${{ github.event.inputs.SCENARIO }} --html=./reports/${{ github.run_id }}/index.html
 
+      # A stable URL for the most recently completed load-test report.
+      # Historic per-run reports are preserved by keep_files in the deploy step.
+      - name: Update latest report pointer
+        run: |
+          mkdir -p reports/latest
+          cat > reports/latest/index.html <<EOF
+          <!doctype html><html lang="en"><head><meta charset="utf-8">
+          <meta http-equiv="refresh" content="0; url=../${{ github.run_id }}/">
+          <title>Latest load-test report</title></head>
+          <body><a href="../${{ github.run_id }}/">Open latest report</a></body></html>
+          EOF
+
       # 9. Корректно останавливаем docker-контейнеры и удаляем volume-ы (например, temp-файлы)
       - name: Stop test services
         if: always()
