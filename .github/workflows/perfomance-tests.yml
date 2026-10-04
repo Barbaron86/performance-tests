@@ -84,6 +84,14 @@ jobs:
           <body><a href="../${{ github.run_id }}/">Open latest report</a></body></html>
           EOF
 
+          # Keep the Pages root navigable by forwarding to the latest report.
+          cat > reports/index.html <<'HTML'
+          <!doctype html><html lang="en"><head><meta charset="utf-8">
+          <meta http-equiv="refresh" content="0; url=./latest/">
+          <title>Load-test reports</title></head>
+          <body><a href="./latest/">Open latest report</a></body></html>
+          HTML
+
       # 9. Корректно останавливаем docker-контейнеры и удаляем volume-ы (например, temp-файлы)
       - name: Stop test services
         if: always()
